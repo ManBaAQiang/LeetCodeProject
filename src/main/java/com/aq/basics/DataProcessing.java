@@ -6,9 +6,56 @@ import com.aq.bo.Node;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class DataProcessing{
 
+    /**
+     * @Description //优先队列，队列 PriorityQueue
+     *  链接：https://leetcode-cn.com/problems/divide-array-in-sets-of-k-consecutive-numbers/solution/you-xian-dui-lie-by-liweiwei1419-2/
+     * @Date 22:54 2019/12/22
+     **/
+    public boolean isPossibleDivide(int[] nums, int k) {
+        int len = nums.length;
+        if (len % k != 0) {
+            return false;
+        }
+
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>(len);
+        for (int num : nums) {
+            minHeap.offer(num);
+        }
+
+        while (!minHeap.isEmpty()) {
+            Integer top = minHeap.poll();
+
+            for (int i = 1; i < k; i++) {
+                // 从 1 开始，正好需要移除 k - 1 个元素
+                // i 正好就是相对于 top 的偏移
+                if (!minHeap.remove(top + i)) {
+                    // 如果移除失败，说明划分不存在，直接返回 false 即可
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @Date 23:49 2019/12/15
+     * https://leetcode-cn.com/problems/median-of-two-sorted-arrays/
+     * 给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
+     * 请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+     * 你可以假设 nums1 和 nums2 不会同时为空。
+     * 示例 :     * nums1 = [1, 2]     * nums2 = [3, 4]
+     * 则中位数是 (2 + 3)/2 = 2.5
+     *
+     *@Description //TODO
+     **/
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+
+        return 0;
+    }
 
     /**
      * @Date 16:26 2019/12/13
@@ -17,7 +64,7 @@ public class DataProcessing{
      * 输入: "abcabcbb"
      * 输出: 3
      *
-     * @Description //TODO
+     * @Description //TODO 并不是最优解，可参考官方示例
      **/
     public static int lengthOfLongestSubstring(String s) {
 
@@ -58,11 +105,29 @@ public class DataProcessing{
      * 如果第 i 间牢房被占用，则 cell[i]==1，否则 cell[i]==0。根据监狱的初始状态，在 N 天后返回监狱的状况（和上述 N 种变化）。
      * 输入：cells = [0,1,0,1,1,0,0,1], N = 7
      * 输出：[0,0,1,1,0,0,0,0]
-     * @Description //TODO
+     * @Description //  放弃，太难了，得找规律，待智商恢复再回来瞧瞧，打个TODO标记 //@TODO
      **/
     public static int[] prisonAfterNDays(int[] cells, int N) {
 
-        return null;
+        int[] newCells = new int[cells.length];
+
+        while(N > 0) {
+            for(int i = 1;i < cells.length-1; i++) {
+                if(cells[i-1]==cells[i+1]){
+                    newCells[i] = 1;
+                }else {
+                    newCells[i] = 0;
+                }
+            }
+            newCells[0] = 0;
+            newCells[newCells.length-1] = 0;
+            for(int i = 0;i < newCells.length; i++) {
+                cells[i] = newCells[i];
+            }
+            N--;
+        }
+
+        return newCells;
     }
 
     /**
@@ -70,7 +135,7 @@ public class DataProcessing{
      * https://leetcode-cn.com/problems/copy-list-with-random-pointer/
      * 给定一个链表，每个节点包含一个额外增加的随机指针，该指针可以指向链表中的任何节点或空节点。要求返回这个链表的深拷贝。
      *
-     * @Description
+     * @Description  //@TODO
      **/
     public static Node copyRandomList(Node head) {
 

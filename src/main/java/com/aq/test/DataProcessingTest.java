@@ -10,8 +10,34 @@ public class DataProcessingTest {
 
     public static void main(String[] args) {
 //        testAddTwoNumbers();
+//        testLengthOfLongestSubstring();
+//        testPrisonAfterNDays();
 
-        testLengthOfLongestSubstring();
+
+    }
+
+    public static int findNumbers(int[] nums) {
+        int sum = 0;
+        for(int i=0; i<nums.length; i++) {
+            int count = 0;
+            while (nums[i] > 0) {
+                nums[i] = nums[i] / 10;
+                count++;
+            }
+            if(count != 0 && count%2 == 0) {
+                sum++;
+            }
+        }
+        return sum;
+    }
+
+
+    private static void testPrisonAfterNDays() {
+        int[] cells = {1,0,0,1,0,0,1,0};
+        int[] ints = DataProcessing.prisonAfterNDays(cells, 3);
+        for (int n : ints) {
+            System.out.println(n);
+        }
     }
 
     private static void testLengthOfLongestSubstring() {
