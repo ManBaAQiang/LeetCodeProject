@@ -12,8 +12,23 @@ public class DataProcessingTest {
 //        testAddTwoNumbers();
 //        testLengthOfLongestSubstring();
 //        testPrisonAfterNDays();
+//        decodeString();
+        findLength();
 
+    }
 
+    public static void findLength() {
+        int[] a = new int[]{0,0,0,0,1};
+        int[] b = new int[]{1,0,0,0,0};
+//        int[] a = new int[]{70,39,25,40,7};
+//        int[] b = new int[]{52,20,67,5,31};
+        System.out.println(DataProcessing.findLength(a,b));
+    }
+
+    public static void decodeString() {
+        String s = "100[leetcode]";
+//        String s = "abc3[cd]xyz";
+        System.out.println(DataProcessing.decodeString(s));
     }
 
     public static int findNumbers(int[] nums) {

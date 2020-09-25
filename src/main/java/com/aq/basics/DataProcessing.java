@@ -3,10 +3,7 @@ package com.aq.basics;
 import com.aq.bo.ListNode;
 import com.aq.bo.Node;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class DataProcessing{
 
@@ -181,5 +178,147 @@ public class DataProcessing{
 
         return listNode.next;
     }
+
+    public static String decodeString(String s) {
+
+        List<Integer> index = new ArrayList<Integer>();
+
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length ; i++) {
+            if(chars[i] == '['){
+                index.add(i);
+            }else if(chars[i] == ']'){
+                index.add(i);
+            }
+        }
+
+        if(index.size() <= 0) {
+            return s;
+        }
+
+        /*String end = "";
+        if(index.get(index.size()-1) < s.length()) {
+            end = s.substring(index.get(index.size()-1)+1,s.length());
+        }
+        StringBuilder start = new StringBuilder("");
+        start.append(s.substring(0,index.get(0)-1));*/
+
+        index.forEach((e)-> System.out.println(e));
+        for(int i = 0; i < index.size();i++){
+            if(chars[index.get(i)]=='[' && chars[index.get(i)] != chars[index.get(i+1)]) {
+                String item = s.substring(index.get(i)+1,index.get(i+1));
+                char[] charsNew = Arrays.copyOf(chars, index.get(i));
+                StringBuilder numStr = new StringBuilder("");
+                int endIndex = 0;
+                for (int j = charsNew.length-1; j >= 0; j--) {
+                    if(Character.isDigit(charsNew[j])){
+                        numStr.insert(0,charsNew[j]);
+                        endIndex = j;
+                    }else {
+                        break;
+                    }
+                }
+                System.out.println(numStr.toString());
+
+//                char aChar = chars[index.get(i)-1];
+                int num = Integer.parseInt(numStr.toString());
+
+                StringBuilder stringBuilder = new StringBuilder("");
+
+                System.out.println(item+"----"+num);
+                for (int j = 0; j < num; j++) {
+                    stringBuilder.append(item);
+                }
+                StringBuilder itemStrat = new StringBuilder(s.substring(0,endIndex));
+                String itemEnd = s.substring(index.get(i+1)+1,s.length());
+
+//                index.remove(i);
+//                index.remove(i);
+//                i=0;
+
+//                index.forEach((e)-> System.out.println(e));
+
+                itemStrat.append(stringBuilder).append(itemEnd);
+                System.out.println(itemStrat.toString());
+                return decodeString(itemStrat.toString());
+
+            }/*else {
+                i++;
+            }*/
+        }
+
+//        stringBuilder.append(end);
+//        return start.append(stringBuilder).toString();
+        return s;
+    }
+
+    /**
+     * @Description //给两个整数数组 A 和 B ，返回两个数组中公共的、长度最长的子数组的长度。
+         * 输入：
+         * A: [1,2,3,2,1]
+         * B: [3,2,1,4,7]
+         * 输出：3
+         * 解释：
+         * 长度最长的公共子数组是 [3, 2, 1] 。
+     * @Date 18:33 2020/7/1
+     * @Param [A, B]
+     * @return int
+     **/
+    public static int findLength(int[] A, int[] B) {
+        int maxCount = 0;
+        int a = A.length, b = B.length;
+        for (int i = 0; i < A.length; i++) {
+            int minlen = Math.min(a-i, b);
+            int max = toLength(A, B, i, 0, minlen);
+            maxCount = Math.max(maxCount,max);
+        }
+        for (int i = 0; i < B.length; i++) {
+            int minlen = Math.min(a, b-i);
+            int max = toLength(A, B, 0, i, minlen);
+            maxCount = Math.max(maxCount,max);
+        }
+        return maxCount;
+        //存在很多边界条件，这种硬解法并不能根本解决问题。
+        /*StringBuilder stringA = new StringBuilder().append(",");
+        StringBuilder stringB = new StringBuilder().append(",");
+        for (int i : A)
+            stringA.append(i+",");
+        for (int i : B)
+            stringB.append(i+",");
+        String s = stringA.toString();
+        String s1 = stringB.toString();
+
+        int maxLength = 0;
+        int index = 0;
+        while (index < A.length){
+            for (int i = 0; i < A.length; i++) {
+                if(i>=index) {
+                    String substring = s.substring(index, i+1);
+                    boolean equals = substring.substring(0, 1).equals(",");
+                    if(s1.indexOf(substring)>-1&&equals&&!substring.equals(",")) {
+                        int len = substring.substring(1,substring.length()).split(",").length+1;
+                        maxLength = len>maxLength?len:maxLength;
+                    }
+                }
+            }
+            index++;
+        }
+        return maxLength;*/
+    }
+    public static int toLength(int[] a, int[] b, int str1, int str2, int len) {
+        int k = 0;
+        int strLen = 0;
+        for (int i = 0; i < len; i++) {
+            if(a[i+str1] == b[i+str2]) {
+                k++;
+            }else {
+                k = 0;
+            }
+            strLen = Math.max(strLen,k);
+        }
+        return strLen;
+    }
+
+
 }
 
