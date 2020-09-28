@@ -195,26 +195,26 @@ public class SearchTree {
         tree.addTreeNode(10);
         tree.addTreeNode(30);
         tree.addTreeNode(70);
-
+        tree.addTreeNode(25);
         tree.addTreeNode(90);
         tree.addTreeNode(100);
         tree.addTreeNode(40);
-        System.out.println("=============================="+"采用递归的前序遍历开始"+"==============================");
+        System.out.println("=============================="+"采用递归的前序遍历 根-左-右 "+"==============================");
         SearchTree.preOrderTreeNode(tree.root,1);
         System.out.println();
-        System.out.println("=============================="+"采用循环的前序遍历开始"+"==============================");
+        System.out.println("=============================="+"采用循环的前序遍历 根-左-右 "+"==============================");
         SearchTree.preOrderTreeNode(tree.root,2);
         System.out.println();
-        System.out.println("=============================="+"采用递归的后序遍历开始"+"==============================");
+        System.out.println("=============================="+"采用递归的后序遍历 左-右-根 "+"==============================");
         SearchTree.postOrderTreeNode(tree.root,1);
         System.out.println();
-        System.out.println("=============================="+"采用循环的后序遍历开始"+"==============================");
+        System.out.println("=============================="+"采用循环的后序遍历 左-右-根 "+"==============================");
         SearchTree.postOrderTreeNode(tree.root,2);
         System.out.println();
-        System.out.println("=============================="+"采用递归的中序遍历开始"+"==============================");
+        System.out.println("=============================="+"采用递归的中序遍历 左-根-右 "+"==============================");
         SearchTree.medOrderTreeNode(tree.root,1);
         System.out.println();
-        System.out.println("=============================="+"采用循环的中序遍历开始"+"==============================");
+        System.out.println("=============================="+"采用循环的中序遍历 左-根-右 "+"==============================");
         SearchTree.medOrderTreeNode(tree.root,2);
     }
 }

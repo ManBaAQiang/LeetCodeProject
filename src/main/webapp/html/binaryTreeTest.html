@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+    
+</body>
+<script>
+    function BinaryTree() {
+        var Node = function(opt) {
+            this.opt = opt;
+            this.leftTree = null;
+            this.rightTree = null;
+        };
+    
+        var root = null;
+
+        var insertNode1 = function(node,newNode){
+            if(newNode.opt < node.opt) {
+                if(node.leftTree === null) {
+                    node.leftTree = newNode;
+                }else {
+                    insertNode1(node.leftTree,newNode);
+                }
+            }else {
+                if(node.rightTree === null) {
+                    node.rightTree = newNode;
+                }else {
+                    insertNode1(node.rightTree,newNode);
+                }
+            }
+        }
+
+        this.insert = function(opt) {
+            var newNode = new Node(opt);
+            if(root === null) {
+                root = newNode;
+            }else {
+                insertNode1(root,newNode);
+            }
+        }
+
+        //中序遍历
+        this.inOrderTree = function (callback) {
+            inOrderTreeNode(root,callback);
+        }
+        var inOrderTreeNode = function (node,callback) {
+            if(node!=null){
+                inOrderTreeNode(node.leftTree,callback);
+                callback(node.opt);
+                inOrderTreeNode(node.rightTree,callback);
+            }
+        }
+        
+        this.findMin = function (callback) {
+            findMinNode(root,callback);
+        }
+        var findMinNode = function (node,callback) {
+            if(node.leftTree==null){
+                callback(node.opt);
+                return;
+            }
+            findMinNode(node.leftTree,callback);
+        }
+
+        this.findMax = function (callback) {
+            findMaxNode(root,callback);
+        }
+        var findMaxNode = function (node,callback) {
+            if(node.rightTree==null){
+                callback(node.opt);
+                return;
+            }
+            findMaxNode(node.rightTree,callback);
+        }
+        
+        this.findNode = function (key,callback) {
+            findNodeByTree(root,key,callback);
+        }
+        var findNodeByTree = function (data,key,callback) {
+            if(data == null) {
+                callback("无");
+                return;
+            }
+            if(data.opt==key){
+                callback(data);
+            }else if(data.opt<key){
+                findNodeByTree(data.rightTree,key,callback);
+            }else {
+                findNodeByTree(data.leftTree,key,callback);
+            }
+        }
+
+        //节点删除
+        this.removeNode = function (opt) {
+            root = removeNodeByTree(root,opt);
+            console.log(root);
+        }
+        var removeNodeByTree = function (root,opt) {
+            if(root == null) {
+                return null;
+            }
+            if(opt<root.opt){
+                root.leftTree = removeNodeByTree(root.leftTree,opt);
+                return root;
+            }else if(opt > root.opt) {
+                root.rightTree = removeNodeByTree(root.rightTree,opt);
+                return root;
+            }else {
+                if(root.leftTree === null && root.rightTree === null){
+                    root = null;
+                    return root;
+                }
+                if(root.leftTree === null){
+                    root = root.rightTree;
+                    return root;
+                }
+                if(root.rightTree === null){
+                    root = root.leftTree;
+                    return root;
+                }
+
+                // var aux = findMaxRoot(root.leftTree);
+                // root.opt = aux.opt;
+                // root.leftTree = removeNodeByTree(root.leftTree,aux.opt);
+
+                var aux = findMinRoot(root.rightTree);
+                root.opt = aux.opt;
+                root.rightTree = removeNodeByTree(root.rightTree,aux.opt);
+                return root;
+            }
+        }
+
+        var findMaxRoot = function (node) {
+            if (node){
+                while(node&&node.rightTree!=null){
+                    node = node.rightTree;
+                }
+                return node;
+            }
+            return null;
+        }
+
+        var findMinRoot = function (node) {
+            if(node) {
+                while(node&&node.leftTree!==null) {
+                    node = node.leftTree;
+                }
+                return node;
+            }
+            return null;
+        }
+    }
+
+    var item = [11,25,15,20,7,13,5,100,2,77,98];
+    var binaryTree = new BinaryTree();
+    item.forEach(function(i) {
+        binaryTree.insert(i);
+    });
+
+    binaryTree.removeNode(25);
+
+    binaryTree.inOrderTree(function (data) {
+        console.log(data);
+    })
+
+    // binaryTree.findNode(22,function(data){
+    //     console.log(data);
+    // })
+</script>
+</html>
